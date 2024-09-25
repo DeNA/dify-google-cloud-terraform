@@ -1,0 +1,57 @@
+variable "project_id" {
+  type = string
+}
+
+variable "region" {
+  type = string
+}
+
+variable "nginx_repository_id" {
+  type = string
+}
+
+variable "web_repository_id" {
+  type = string
+}
+
+variable "api_repository_id" {
+  type = string
+}
+
+variable "sandbox_repository_id" {
+  type = string
+}
+
+variable "secret_key" {
+  type = string
+}
+
+variable "db_username" {
+  type = string
+}
+
+variable "db_password" {
+  type = string
+}
+
+variable "db_port" {
+  type = string
+}
+
+variable "db_database" {
+  type = string
+}
+
+variable "storage_type" {
+  type = string
+}
+
+variable "google_storage_bucket_name" {
+  type = string
+}
+
+variable "vector_store" {
+  type = string
+}
+
+

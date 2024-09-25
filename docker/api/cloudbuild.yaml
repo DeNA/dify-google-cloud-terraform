@@ -1,0 +1,9 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/dify-api-repo/dify-api:${_DIFY_API_VERSION}', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/dify-api-repo/dify-api:${_DIFY_API_VERSION}']
+
+images:
+  - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/dify-api-repo/dify-api:${_DIFY_API_VERSION}'

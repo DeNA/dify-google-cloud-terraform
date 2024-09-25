@@ -1,0 +1,14 @@
+project_id                 = "your-project-id" # replace with your project id
+region                     = "your-region" # replace with your region
+nginx_repository_id        = "dify-nginx-repo"
+web_repository_id          = "dify-web-repo"
+api_repository_id          = "dify-api-repo"
+sandbox_repository_id      = "dify-sandbox-repo"
+secret_key                 = "your-secret-key" # replace with a generated value (run command `openssl rand -base64 42`)
+db_username                = "postgres"
+db_password                = "difyai123456"
+db_port                    = "5432"
+db_database                = "dify"
+storage_type               = "google-storage"
+google_storage_bucket_name = "dify"
+vector_store               = "pgvector"
