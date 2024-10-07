@@ -6,6 +6,14 @@ variable "region" {
   type = string
 }
 
+variable "dify_version" {
+  type = string
+}
+
+variable "dify_sandbox_version" {
+  type = string
+}
+
 variable "nginx_repository_id" {
   type = string
 }

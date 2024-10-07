@@ -62,7 +62,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
     }
     containers {
       name  = "dify-api"
-      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.api_repository_id}/dify-api:latest"
+      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.api_repository_id}/dify-api:${var.dify_version}"
       resources {
         limits = {
           cpu    = "1"
@@ -212,7 +212,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
     }
     containers {
       name  = "dify-web"
-      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.web_repository_id}/langgenius/dify-web:latest"
+      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.web_repository_id}/langgenius/dify-web:${var.dify_version}"
       resources {
         limits = {
           cpu    = "1"
@@ -258,7 +258,7 @@ resource "google_cloud_run_v2_service" "dify_worker" {
   template {
     containers {
       name  = "dify-worker"
-      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.api_repository_id}/dify-api:latest"
+      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.api_repository_id}/dify-api:${var.dify_version}"
       resources {
         limits = {
           cpu    = "1"
@@ -418,7 +418,7 @@ resource "google_cloud_run_v2_service" "dify_sandbox" {
   template {
     containers {
       name  = "dify-sandbox"
-      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.sandbox_repository_id}/langgenius/dify-sandbox:latest"
+      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.sandbox_repository_id}/langgenius/dify-sandbox:${var.dify_sandbox_version}"
       resources {
         limits = {
           cpu    = "1"

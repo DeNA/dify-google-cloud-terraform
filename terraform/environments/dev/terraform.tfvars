@@ -1,5 +1,7 @@
 project_id                 = "your-project-id" # replace with your project id
 region                     = "your-region" # replace with your region
+dify_version               = "0.6.15"
+dify_sandbox_version       = "0.2.1"
 nginx_repository_id        = "dify-nginx-repo"
 web_repository_id          = "dify-web-repo"
 api_repository_id          = "dify-api-repo"
