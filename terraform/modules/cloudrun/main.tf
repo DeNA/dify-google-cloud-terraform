@@ -460,6 +460,12 @@ resource "google_cloud_run_v2_service" "dify_sandbox" {
 resource "google_vpc_access_connector" "connector" {
   name          = "cloud-run-connector"
   region        = var.region
+  min_instances = 2
+  max_instances = 5
   network       = var.vpc_network_name
   ip_cidr_range = "10.8.0.0/28"
+}
+
+output "dify_service_name" {
+  value = google_cloud_run_v2_service.dify_service.name
 }
