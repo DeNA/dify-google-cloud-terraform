@@ -465,3 +465,7 @@ resource "google_vpc_access_connector" "connector" {
   network       = var.vpc_network_name
   ip_cidr_range = "10.8.0.0/28"
 }
+
+output "dify_service_name" {
+  value = google_cloud_run_v2_service.dify_service.name
+}
