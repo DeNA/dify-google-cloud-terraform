@@ -13,13 +13,10 @@ resource "google_service_account" "storage_admin" {
   display_name = "Storage Admin Service Account"
 }
 
-resource "google_project_iam_binding" "storage_admin_binding" {
+resource "google_project_iam_member" "storage_admin" {
   project = var.project_id
   role    = "roles/storage.admin"
-
-  members = [
-    "serviceAccount:${google_service_account.storage_admin.email}",
-  ]
+  member  = "serviceAccount:${google_service_account.storage_admin.email}"
 }
 
 resource "google_service_account_key" "storage_admin_key" {
