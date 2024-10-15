@@ -1,5 +1,5 @@
 # ベースイメージとしてDocker Hubからイメージをプル
-FROM langgenius/dify-api:latest
+FROM langgenius/dify-api:0.6.15
 
 # カスタムのentrypoint.shを追加
 COPY entrypoint.sh /entrypoint.sh
