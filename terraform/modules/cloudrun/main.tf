@@ -33,7 +33,7 @@ resource "google_cloud_run_service_iam_binding" "public_sanbox" {
 resource "google_cloud_run_v2_service" "dify_service" {
   name     = "dify-service"
   location = var.region
-  ingress  = "INGRESS_TRAFFIC_ALL"
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
   template {
     service_account = google_service_account.dify_service_account.email
     containers {
