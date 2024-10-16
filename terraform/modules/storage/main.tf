@@ -13,8 +13,8 @@ resource "google_service_account" "storage_admin" {
   display_name = "Storage Admin Service Account"
 }
 
-resource "google_project_iam_member" "storage_admin" {
-  project = var.project_id
+resource "google_storage_bucket_iam_member" "storage_admin" {
+  bucket  = google_storage_bucket.dify_storage.name
   role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.storage_admin.email}"
 }
