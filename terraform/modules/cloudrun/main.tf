@@ -407,6 +407,10 @@ resource "google_cloud_run_v2_service" "dify_worker" {
       connector = "projects/${var.project_id}/locations/${var.region}/connectors/${google_vpc_access_connector.connector.name}"
       egress    = "ALL_TRAFFIC"
     }
+    scaling {
+      min_instance_count = 1
+      max_instance_count = 5
+    }
   }
 }
 
