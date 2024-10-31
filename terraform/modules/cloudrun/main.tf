@@ -200,6 +200,10 @@ resource "google_cloud_run_v2_service" "dify_service" {
         name  = "CODE_EXECUTION_API_KEY"
         value = "dify-sandbox"
       }
+      env {
+        name  = "INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH"
+        value = var.indexing_max_segmentation_tokens_length
+      }
       startup_probe {
         timeout_seconds   = 240
         period_seconds    = 240
@@ -391,6 +395,10 @@ resource "google_cloud_run_v2_service" "dify_worker" {
       env {
         name  = "CODE_EXECUTION_API_KEY"
         value = "dify-sandbox"
+      }
+      env {
+        name  = "INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH"
+        value = var.indexing_max_segmentation_tokens_length
       }
       startup_probe {
         http_get {
