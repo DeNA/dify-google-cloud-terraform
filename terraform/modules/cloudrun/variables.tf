@@ -81,3 +81,7 @@ variable "redis_host" {
 variable "redis_port" {
   type = string
 }
+
+variable "indexing_max_segmentation_tokens_length" {
+  type = string
+}

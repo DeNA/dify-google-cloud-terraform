@@ -17,6 +17,7 @@ module "cloudrun" {
   db_database           = var.db_database
   storage_type          = var.storage_type
   vector_store          = var.vector_store
+  indexing_max_segmentation_tokens_length = var.indexing_max_segmentation_tokens_length
 
   vpc_network_name                           = module.network.vpc_network_name
   redis_host                                 = module.redis.redis_host

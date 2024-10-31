@@ -62,4 +62,7 @@ variable "vector_store" {
   type = string
 }
 
+variable "indexing_max_segmentation_tokens_length" {
+  type = number
+}
 
