@@ -1,20 +1,21 @@
 module "cloudrun" {
   source = "../../modules/cloudrun"
 
-  project_id            = var.project_id
-  region                = var.region
-  nginx_repository_id   = var.nginx_repository_id
-  web_repository_id     = var.web_repository_id
-  api_repository_id     = var.api_repository_id
-  sandbox_repository_id = var.sandbox_repository_id
-  secret_key            = var.secret_key
-  db_username           = var.db_username
-  db_password           = var.db_password
-  db_host               = module.cloudsql.cloudsql_internal_ip
-  db_port               = var.db_port
-  db_database           = var.db_database
-  storage_type          = var.storage_type
-  vector_store          = var.vector_store
+  project_id                              = var.project_id
+  region                                  = var.region
+  cloud_run_ingress                       = var.cloud_run_ingress
+  nginx_repository_id                     = var.nginx_repository_id
+  web_repository_id                       = var.web_repository_id
+  api_repository_id                       = var.api_repository_id
+  sandbox_repository_id                   = var.sandbox_repository_id
+  secret_key                              = var.secret_key
+  db_username                             = var.db_username
+  db_password                             = var.db_password
+  db_host                                 = module.cloudsql.cloudsql_internal_ip
+  db_port                                 = var.db_port
+  db_database                             = var.db_database
+  storage_type                            = var.storage_type
+  vector_store                            = var.vector_store
   indexing_max_segmentation_tokens_length = var.indexing_max_segmentation_tokens_length
 
   vpc_network_name                           = module.network.vpc_network_name
