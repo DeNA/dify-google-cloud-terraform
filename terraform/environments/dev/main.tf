@@ -3,6 +3,8 @@ module "cloudrun" {
 
   project_id                              = var.project_id
   region                                  = var.region
+  dify_version                            = var.dify_version
+  dify_sandbox_version                    = var.dify_sandbox_version
   cloud_run_ingress                       = var.cloud_run_ingress
   nginx_repository_id                     = var.nginx_repository_id
   web_repository_id                       = var.web_repository_id
