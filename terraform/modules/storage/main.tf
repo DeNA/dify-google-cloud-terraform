@@ -1,6 +1,6 @@
 resource "google_storage_bucket" "dify_storage" {
   force_destroy               = false
-  location                    = "${upper(var.region)}"
+  location                    = upper(var.region)
   name                        = "${var.project_id}_${var.google_storage_bucket_name}"
   project                     = var.project_id
   public_access_prevention    = "enforced"
@@ -14,9 +14,9 @@ resource "google_service_account" "storage_admin" {
 }
 
 resource "google_storage_bucket_iam_member" "storage_admin" {
-  bucket  = google_storage_bucket.dify_storage.name
-  role    = "roles/storage.admin"
-  member  = "serviceAccount:${google_service_account.storage_admin.email}"
+  bucket = google_storage_bucket.dify_storage.name
+  role   = "roles/storage.admin"
+  member = "serviceAccount:${google_service_account.storage_admin.email}"
 }
 
 resource "google_service_account_key" "storage_admin_key" {
