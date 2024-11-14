@@ -2,7 +2,7 @@
 
 PROJECT_ID=$1
 REGION=$2
-DIFY_API_VERSION=${4:-"latest"}
+DIFY_API_VERSION=${3:-"latest"}
 
 # Nginx Build and Push
 pushd docker/nginx
