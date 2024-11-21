@@ -46,11 +46,11 @@
 4. コンテナイメージをビルド＆プッシュ:
     ```sh
     cd ../../..
-    sh ./docker/cloudbuild.sh <your-region> <your-project-id>
+    sh ./docker/cloudbuild.sh <your-project-id> <your-region>
     ```
     また、dify-api イメージのバージョンを指定することもできます。
     ```sh
-    sh ./docker/cloudbuild.sh <your-region> <your-project-id>  <dify-api-version>
+    sh ./docker/cloudbuild.sh <your-project-id> <your-region> <dify-api-version>
     ```
     バージョンを指定しない場合、デフォルトで最新バージョンが使用されます。
 
