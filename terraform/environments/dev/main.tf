@@ -73,3 +73,21 @@ module "registry" {
   api_repository_id     = var.api_repository_id
   sandbox_repository_id = var.sandbox_repository_id
 }
+
+locals {
+  services = [
+    "artifactregistry.googleapis.com",
+    "compute.googleapis.com",
+    "servicenetworking.googleapis.com",
+    "redis.googleapis.com",
+    "vpcaccess.googleapis.com",
+    "run.googleapis.com",
+    "storage.googleapis.com",
+  ]
+}
+
+resource "google_project_service" "enabled_services" {
+  for_each = toset(local.services)
+  project  = var.project_id
+  service  = each.value
+}

@@ -20,7 +20,6 @@ This repository allows you to automatically set up Google Cloud resources using 
 - Google Cloud account
 - Terraform installed
 - gcloud CLI installed
-- Required APIs enabled (Serverless VPC Access, Service Networking, etc.)
 
 ## Configuration
 - Set environment-specific values in the `terraform/environments/dev/terraform.tfvars` file.
