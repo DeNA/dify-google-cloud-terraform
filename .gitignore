@@ -2,3 +2,6 @@
 .terraform*
 
 .DS_Store
+
+.envrc
+terraform.tfvars

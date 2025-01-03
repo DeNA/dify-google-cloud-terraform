@@ -41,7 +41,7 @@ resource "google_sql_database_instance" "postgres_instance" {
 
     disk_autoresize       = true
     disk_autoresize_limit = 0
-    disk_size             = 100
+    disk_size             = 50
     disk_type             = "PD_SSD"
 
     ip_configuration {
@@ -59,7 +59,7 @@ resource "google_sql_database_instance" "postgres_instance" {
     }
 
     pricing_plan = "PER_USE"
-    tier         = "db-custom-2-8192"
+    tier         = "db-custom-1-4096"
   }
 }
 

@@ -1,6 +1,6 @@
 resource "google_redis_instance" "dify_redis" {
   name              = "dify-redis"
-  tier              = "STANDARD_HA"
+  tier              = "BASIC" # "STANDARD_HA"
   memory_size_gb    = 1
   region            = var.region
   project           = var.project_id
