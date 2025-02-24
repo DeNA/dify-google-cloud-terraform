@@ -1,0 +1,46 @@
+name: Format and Push Terraform Code 📝
+
+env:
+  TF_VERSION: 1.9.8
+
+on:
+  pull_request:
+
+permissions:
+    contents: "write"
+    id-token: "write"
+    pull-requests: "write"
+
+jobs:
+  terraform-fmt:
+    name: Format and Push Terraform Code 📝
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup Terraform 🛠️
+        uses: ./.github/actions/setup-terraform
+        with:
+          tf_version: ${{ env.TF_VERSION }}
+
+      - name: Format Terraform Code 📝
+        run: terraform fmt -recursive
+
+      - name: Check the Difference
+        id: diff
+        run: git diff --quiet --exit-code
+        continue-on-error: true
+
+      - name: Commit and Push Changes
+        if: steps.diff.outcome == 'failure'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -a -m '[skip ci] format .tf files'
+          git push
