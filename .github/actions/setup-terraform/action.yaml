@@ -1,0 +1,15 @@
+name: "Setup Terraform 🛠️"
+description: "Setup Terraform for infrastructure deployment"
+
+inputs:
+  tf_version:
+    description: "specify terraform version"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
+      with:
+        terraform_version: ${{ inputs.tf_version }}
