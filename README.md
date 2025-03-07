@@ -8,8 +8,8 @@
 
 <a href="./README_ja.md"><img alt="日本語のREADME" src="https://img.shields.io/badge/日本語-d9d9d9"></a>
 
-[!WARNING]
-Now we are preparing to support Dify v1.0.0. Please wait and look forward!
+> [!WARNING]
+> Now we are preparing to support Dify v1.0.0. Please wait and look forward!
 
 ## Overview
 This repository allows you to automatically set up Google Cloud resources using Terraform and deploy Dify in a highly available configuration.
