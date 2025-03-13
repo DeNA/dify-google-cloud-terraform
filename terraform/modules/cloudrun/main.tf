@@ -49,7 +49,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
         name           = "http1"
         container_port = 80
       }
-      depends_on = ["dify-web", "dify-api"]
+      depends_on = ["dify-web", "dify-api", "dify-plugin-daemon"]
       startup_probe {
         timeout_seconds   = 240
         period_seconds    = 240
@@ -77,132 +77,47 @@ resource "google_cloud_run_v2_service" "dify_service" {
         value = "api"
       }
       env {
-        name  = "SECRET_KEY"
-        value = var.secret_key
+        name  = "PLUGIN_DAEMON_URL"
+        value = "http://127.0.0.1:5002"
       }
       env {
-        name  = "LOG_LEVEL"
-        value = "INFO"
+        name  = "ENDPOINT_URL_TEMPLATE"
+        value = "http://127.0.0.1/e/{hook_id}"
       }
       env {
-        name  = "CONSOLE_WEB_URL"
+        name  = "SENTRY_DSN"
         value = ""
       }
       env {
-        name  = "CONSOLE_API_URL"
-        value = ""
+        name  = "SENTRY_TRACES_SAMPLE_RATE"
+        value = 1.0
       }
       env {
-        name  = "SERVICE_API_URL"
-        value = ""
+        name  = "SENTRY_PROFILES_SAMPLE_RATE"
+        value = 1.0
       }
       env {
-        name  = "APP_WEB_URL"
-        value = ""
+        name  = "PLUGIN_REMOTE_INSTALL_HOST"
+        value = "127.0.0.1"
       }
       env {
-        name  = "CHECK_UPDATE_URL"
-        value = "https://updates.dify.ai"
+        name  = "PLUGIN_REMOTE_INSTALL_PORT"
+        value = 5003
       }
       env {
-        name  = "OPENAI_API_BASE"
-        value = "https://api.openai.com/v1"
+        name  = "PLUGIN_MAX_PACKAGE_SIZE"
+        value = 52428800
       }
       env {
-        name  = "FILES_URL"
-        value = ""
+        name  = "INNER_API_KEY_FOR_PLUGIN"
+        value = var.plugin_dify_inner_api_key
       }
-      env {
-        name  = "MIGRATION_ENABLED"
-        value = "true"
-      }
-      env {
-        name  = "CELERY_BROKER_URL"
-        value = "redis://${var.redis_host}:${var.redis_port}/1"
-      }
-      env {
-        name  = "WEB_API_CORS_ALLOW_ORIGINS"
-        value = "*"
-      }
-      env {
-        name  = "CONSOLE_CORS_ALLOW_ORIGINS"
-        value = "*"
-      }
-      env {
-        name  = "DB_USERNAME"
-        value = var.db_username
-      }
-      env {
-        name  = "DB_PASSWORD"
-        value = var.db_password
-      }
-      env {
-        name  = "DB_HOST"
-        value = var.db_host
-      }
-      env {
-        name  = "DB_PORT"
-        value = var.db_port
-      }
-      env {
-        name  = "DB_DATABASE"
-        value = var.db_database
-      }
-      env {
-        name  = "STORAGE_TYPE"
-        value = var.storage_type
-      }
-      env {
-        name  = "GOOGLE_STORAGE_BUCKET_NAME"
-        value = var.google_storage_bucket_name
-      }
-      env {
-        name  = "GOOGLE_STORAGE_SERVICE_ACCOUNT_JSON_BASE64"
-        value = var.google_storage_service_account_json_base64
-      }
-      env {
-        name  = "REDIS_HOST"
-        value = var.redis_host
-      }
-      env {
-        name  = "REDIS_PORT"
-        value = var.redis_port
-      }
-      env {
-        name  = "VECTOR_STORE"
-        value = var.vector_store
-      }
-      env {
-        name  = "PGVECTOR_HOST"
-        value = var.db_host
-      }
-      env {
-        name  = "PGVECTOR_PORT"
-        value = "5432"
-      }
-      env {
-        name  = "PGVECTOR_USER"
-        value = var.db_username
-      }
-      env {
-        name  = "PGVECTOR_PASSWORD"
-        value = var.db_password
-      }
-      env {
-        name  = "PGVECTOR_DATABASE"
-        value = var.db_database
-      }
-      env {
-        name  = "CODE_EXECUTION_ENDPOINT"
-        value = google_cloud_run_v2_service.dify_sandbox.uri
-      }
-      env {
-        name  = "CODE_EXECUTION_API_KEY"
-        value = "dify-sandbox"
-      }
-      env {
-        name  = "INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH"
-        value = var.indexing_max_segmentation_tokens_length
+      dynamic "env" {
+        for_each = var.shared_env_vars
+        content {
+          name  = env.key
+          value = env.value
+        }
       }
       startup_probe {
         timeout_seconds   = 240
@@ -234,6 +149,50 @@ resource "google_cloud_run_v2_service" "dify_service" {
         name  = "APP_API_URL"
         value = ""
       }
+      env {
+        name  = "SENTRY_DSN"
+        value = ""
+      }
+      env {
+        name  = "NEXT_TELEMETRY_DISABLED"
+        value = 0
+      }
+      env {
+        name  = "TEXT_GENERATION_TIMEOUT_MS"
+        value = 60000
+      }
+      env {
+        name  = "CSP_WHITELIST"
+        value = ""
+      }
+      env {
+        name  = "MARKETPLACE_API_URL"
+        value = "https://marketplace.dify.ai"
+      }
+      env {
+        name  = "MARKETPLACE_URL"
+        value = "https://marketplace.dify.ai"
+      }
+      env {
+        name  = "TOP_K_MAX_VALUE"
+        value = ""
+      }
+      env {
+        name  = "INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH"
+        value = ""
+      }
+      env {
+        name  = "PM2_INSTANCES"
+        value = 2
+      }
+      env {
+        name  = "LOOP_NODE_MAX_COUNT"
+        value = 100
+      }
+      env {
+        name  = "MAX_TOOLS_NUM"
+        value = 10
+      }
       startup_probe {
         timeout_seconds   = 240
         period_seconds    = 240
@@ -243,9 +202,97 @@ resource "google_cloud_run_v2_service" "dify_service" {
         }
       }
     }
+    containers {
+      name  = "dify-plugin-daemon"
+      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.plugin_daemon_repository_id}/langgenius/dify-plugin-daemon:${var.dify_plugin_daemon_version}"
+      resources {
+        limits = {
+          cpu    = "1"
+          memory = "4Gi"
+        }
+      }
+      env {
+        name  = "PORT"
+        value = 5003
+      }
+      dynamic "env" {
+        for_each = var.shared_env_vars
+        content {
+          name  = env.key
+          value = env.value
+        }
+      }
+      env {
+        name  = "DB_DATABASE"
+        value = "dify_plugin"
+      }
+      env {
+        name  = "SERVER_PORT"
+        value = 5002
+      }
+      env {
+        name  = "SERVER_KEY"
+        value = var.plugin_daemon_key
+      }
+      env {
+        name  = "MAX_PLUGIN_PACKAGE_SIZE"
+        value = 52428800
+      }
+      env {
+        name  = "PPROF_ENABLED"
+        value = false
+      }
+      env {
+        name  = "DIFY_INNER_API_URL"
+        value = "http://127.0.0.1:5001"
+      }
+      env {
+        name  = "DIFY_INNER_API_KEY"
+        value = var.plugin_dify_inner_api_key
+      }
+      env {
+        name  = "PLUGIN_REMOTE_INSTALLING_HOST"
+        value = "0.0.0.0"
+      }
+      env {
+        name  = "PLUGIN_REMOTE_INSTALLING_PORT"
+        value = 5003
+      }
+      env {
+        name  = "PLUGIN_WORKING_PATH"
+        value = "/app/storage/cwd"
+      }
+      env {
+        name  = "FORCE_VERIFYING_SIGNATURE"
+        value = true
+      }
+      env {
+        name  = "PYTHON_ENV_INIT_TIMEOUT"
+        value = 120
+      }
+      env {
+        name  = "PLUGIN_MAX_EXECUTION_TIMEOUT"
+        value = 600
+      }
+      env {
+        name  = "PIP_MIRROR_URL"
+        value = ""
+      }
+      startup_probe {
+        timeout_seconds   = 240
+        period_seconds    = 240
+        failure_threshold = 1
+        tcp_socket {
+          port = 5003
+        }
+      }
+    }
     vpc_access {
-      connector = "projects/${var.project_id}/locations/${var.region}/connectors/${google_vpc_access_connector.connector.name}"
-      egress    = "ALL_TRAFFIC"
+      network_interfaces {
+        network    = var.vpc_network_name
+        subnetwork = var.vpc_subnet_name
+      }
+      egress = "ALL_TRAFFIC"
     }
     scaling {
       min_instance_count = 1
@@ -268,137 +315,48 @@ resource "google_cloud_run_v2_service" "dify_worker" {
           memory = "4Gi"
         }
       }
+      ports {
+        name           = "http1"
+        container_port = 5001
+      }
       env {
         name  = "MODE"
         value = "worker"
       }
       env {
-        name  = "SECRET_KEY"
-        value = var.secret_key
+        name  = "PLUGIN_DAEMON_URL"
+        value = "${google_cloud_run_v2_service.dify_service.uri}:5002"
       }
       env {
-        name  = "LOG_LEVEL"
-        value = "INFO"
+        name  = "ENDPOINT_URL_TEMPLATE"
+        value = "${google_cloud_run_v2_service.dify_service.uri}/e/{hook_id}"
       }
       env {
-        name  = "CONSOLE_WEB_URL"
+        name  = "SENTRY_DSN"
         value = ""
       }
       env {
-        name  = "CONSOLE_API_URL"
-        value = ""
+        name  = "SENTRY_TRACES_SAMPLE_RATE"
+        value = 1.0
       }
       env {
-        name  = "SERVICE_API_URL"
-        value = ""
+        name  = "SENTRY_PROFILES_SAMPLE_RATE"
+        value = 1.0
       }
       env {
-        name  = "APP_WEB_URL"
-        value = ""
+        name  = "PLUGIN_MAX_PACKAGE_SIZE"
+        value = 52428800
       }
       env {
-        name  = "CHECK_UPDATE_URL"
-        value = "https://updates.dify.ai"
+        name  = "INNER_API_KEY_FOR_PLUGIN"
+        value = var.plugin_dify_inner_api_key
       }
-      env {
-        name  = "OPENAI_API_BASE"
-        value = "https://api.openai.com/v1"
-      }
-      env {
-        name  = "FILES_URL"
-        value = ""
-      }
-      env {
-        name  = "MIGRATION_ENABLED"
-        value = "true"
-      }
-      env {
-        name  = "CELERY_BROKER_URL"
-        value = "redis://${var.redis_host}:${var.redis_port}/1"
-      }
-      env {
-        name  = "WEB_API_CORS_ALLOW_ORIGINS"
-        value = "*"
-      }
-      env {
-        name  = "CONSOLE_CORS_ALLOW_ORIGINS"
-        value = "*"
-      }
-      env {
-        name  = "DB_USERNAME"
-        value = var.db_username
-      }
-      env {
-        name  = "DB_PASSWORD"
-        value = var.db_password
-      }
-      env {
-        name  = "DB_HOST"
-        value = var.db_host
-      }
-      env {
-        name  = "DB_PORT"
-        value = var.db_port
-      }
-      env {
-        name  = "DB_DATABASE"
-        value = var.db_database
-      }
-      env {
-        name  = "STORAGE_TYPE"
-        value = var.storage_type
-      }
-      env {
-        name  = "GOOGLE_STORAGE_BUCKET_NAME"
-        value = var.google_storage_bucket_name
-      }
-      env {
-        name  = "GOOGLE_STORAGE_SERVICE_ACCOUNT_JSON_BASE64"
-        value = var.google_storage_service_account_json_base64
-      }
-      env {
-        name  = "REDIS_HOST"
-        value = var.redis_host
-      }
-      env {
-        name  = "REDIS_PORT"
-        value = var.redis_port
-      }
-      env {
-        name  = "VECTOR_STORE"
-        value = var.vector_store
-      }
-      env {
-        name  = "PGVECTOR_HOST"
-        value = var.db_host
-      }
-      env {
-        name  = "PGVECTOR_PORT"
-        value = "5432"
-      }
-      env {
-        name  = "PGVECTOR_USER"
-        value = var.db_username
-      }
-      env {
-        name  = "PGVECTOR_PASSWORD"
-        value = var.db_password
-      }
-      env {
-        name  = "PGVECTOR_DATABASE"
-        value = var.db_database
-      }
-      env {
-        name  = "CODE_EXECUTION_ENDPOINT"
-        value = google_cloud_run_v2_service.dify_sandbox.uri
-      }
-      env {
-        name  = "CODE_EXECUTION_API_KEY"
-        value = "dify-sandbox"
-      }
-      env {
-        name  = "INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH"
-        value = var.indexing_max_segmentation_tokens_length
+      dynamic "env" {
+        for_each = var.shared_env_vars
+        content {
+          name  = env.key
+          value = env.value
+        }
       }
       startup_probe {
         http_get {
@@ -412,8 +370,11 @@ resource "google_cloud_run_v2_service" "dify_worker" {
       }
     }
     vpc_access {
-      connector = "projects/${var.project_id}/locations/${var.region}/connectors/${google_vpc_access_connector.connector.name}"
-      egress    = "ALL_TRAFFIC"
+      network_interfaces {
+        network    = var.vpc_network_name
+        subnetwork = var.vpc_subnet_name
+      }
+      egress = "ALL_TRAFFIC"
     }
     scaling {
       min_instance_count = 1
@@ -462,21 +423,11 @@ resource "google_cloud_run_v2_service" "dify_sandbox" {
       }
     }
     vpc_access {
-      connector = "projects/${var.project_id}/locations/${var.region}/connectors/${google_vpc_access_connector.connector.name}"
-      egress    = "ALL_TRAFFIC"
+      network_interfaces {
+        network    = var.vpc_network_name
+        subnetwork = var.vpc_subnet_name
+      }
+      egress = "ALL_TRAFFIC"
     }
   }
-}
-
-resource "google_vpc_access_connector" "connector" {
-  name          = "cloud-run-connector"
-  region        = var.region
-  min_instances = 2
-  max_instances = 5
-  network       = var.vpc_network_name
-  ip_cidr_range = "10.8.0.0/28"
-}
-
-output "dify_service_name" {
-  value = google_cloud_run_v2_service.dify_service.name
 }

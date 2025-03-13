@@ -34,58 +34,30 @@ variable "sandbox_repository_id" {
   type = string
 }
 
-variable "secret_key" {
-  type = string
-}
-
-variable "db_username" {
-  type = string
-}
-
-variable "db_password" {
-  type = string
-}
-
-variable "db_host" {
-  type = string
-}
-
-variable "db_port" {
-  type = string
-}
-
-variable "db_database" {
-  type = string
-}
-
-variable "storage_type" {
-  type = string
-}
-
-variable "google_storage_bucket_name" {
-  type = string
-}
-
-variable "google_storage_service_account_json_base64" {
-  type = string
-}
-
-variable "vector_store" {
-  type = string
-}
-
 variable "vpc_network_name" {
   type = string
 }
 
-variable "redis_host" {
+variable "vpc_subnet_name" {
   type = string
 }
 
-variable "redis_port" {
+variable "plugin_daemon_repository_id" {
   type = string
 }
 
-variable "indexing_max_segmentation_tokens_length" {
+variable "plugin_daemon_key" {
   type = string
+}
+
+variable "plugin_dify_inner_api_key" {
+  type = string
+}
+
+variable "dify_plugin_daemon_version" {
+  type = string
+}
+
+variable "shared_env_vars" {
+  type = map(string)
 }
