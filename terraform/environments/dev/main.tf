@@ -29,7 +29,7 @@ locals {
     "PGVECTOR_USER"        = var.db_username
     "PGVECTOR_PASSWORD"    = var.db_password
     "PGVECTOR_DATABASE"    = var.db_database
-    "CODE_EXECUTION_ENDPOINT" = google_cloud_run_v2_service.dify_sandbox.uri
+    "CODE_EXECUTION_ENDPOINT" = module.cloudrun.dify_sandbox_url
     "CODE_EXECUTION_API_KEY" = "dify-sandbox"
     "INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH" = var.indexing_max_segmentation_tokens_length
     "PLUGIN_DAEMON_KEY"    = var.plugin_daemon_key
@@ -50,6 +50,7 @@ module "cloudrun" {
   api_repository_id                       = var.api_repository_id
   sandbox_repository_id                   = var.sandbox_repository_id
   vpc_network_name                        = module.network.vpc_network_name
+  vpc_subnet_name                         = module.network.vpc_subnet_name
   plugin_daemon_repository_id             = var.plugin_daemon_repository_id
   plugin_daemon_key                       = var.plugin_daemon_key
   plugin_dify_inner_api_key               = var.plugin_dify_inner_api_key
@@ -101,6 +102,7 @@ module "registry" {
   web_repository_id     = var.web_repository_id
   api_repository_id     = var.api_repository_id
   sandbox_repository_id = var.sandbox_repository_id
+  plugin_daemon_repository_id = var.plugin_daemon_repository_id
 }
 
 locals {

@@ -38,6 +38,10 @@ variable "vpc_network_name" {
   type = string
 }
 
+variable "vpc_subnet_name" {
+  type = string
+}
+
 variable "plugin_daemon_repository_id" {
   type = string
 }

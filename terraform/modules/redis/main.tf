@@ -9,11 +9,3 @@ resource "google_redis_instance" "dify_redis" {
 
   authorized_network = var.vpc_network_name
 }
-
-output "redis_host" {
-  value = google_redis_instance.dify_redis.host
-}
-
-output "redis_port" {
-  value = google_redis_instance.dify_redis.port
-}

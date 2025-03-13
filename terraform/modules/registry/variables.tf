@@ -21,3 +21,7 @@ variable "api_repository_id" {
 variable "sandbox_repository_id" {
   type = string
 }
+
+variable "plugin_daemon_repository_id" {
+  type = string
+}
