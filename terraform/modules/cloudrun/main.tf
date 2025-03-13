@@ -292,7 +292,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
         network    = var.vpc_network_name
         subnetwork = var.vpc_subnet_name
       }
-      egress    = "ALL_TRAFFIC"
+      egress = "ALL_TRAFFIC"
     }
     scaling {
       min_instance_count = 1
@@ -374,7 +374,7 @@ resource "google_cloud_run_v2_service" "dify_worker" {
         network    = var.vpc_network_name
         subnetwork = var.vpc_subnet_name
       }
-      egress    = "ALL_TRAFFIC"
+      egress = "ALL_TRAFFIC"
     }
     scaling {
       min_instance_count = 1
@@ -427,7 +427,7 @@ resource "google_cloud_run_v2_service" "dify_sandbox" {
         network    = var.vpc_network_name
         subnetwork = var.vpc_subnet_name
       }
-      egress    = "ALL_TRAFFIC"
+      egress = "ALL_TRAFFIC"
     }
   }
 }

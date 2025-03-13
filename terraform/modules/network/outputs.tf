@@ -4,5 +4,5 @@ output "vpc_network_name" {
 
 output "vpc_subnet_name" {
   value = google_compute_subnetwork.dify_subnet.name
-  
+
 }
