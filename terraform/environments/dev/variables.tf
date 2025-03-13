@@ -30,6 +30,10 @@ variable "api_repository_id" {
   type = string
 }
 
+variable "plugin_daemon_repository_id" {
+  type = string
+}
+
 variable "sandbox_repository_id" {
   type = string
 }
@@ -70,3 +74,14 @@ variable "indexing_max_segmentation_tokens_length" {
   type = number
 }
 
+variable "plugin_daemon_key" {
+  type = string
+}
+
+variable "plugin_dify_inner_api_key" {
+  type = string
+}
+
+variable "dify_plugin_daemon_version" {
+  type = string
+}
