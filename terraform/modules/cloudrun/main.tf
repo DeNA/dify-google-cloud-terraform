@@ -36,7 +36,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
   location = var.region
   ingress  = var.cloud_run_ingress
   template {
-    service_account = google_service_account.dify_service_account.email
+    service_account       = google_service_account.dify_service_account.email
     execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
     containers {
       name  = "nginx"
@@ -188,8 +188,8 @@ resource "google_cloud_run_v2_service" "dify_service" {
         value = 2
       }
       # NOTE: Changing PM2_HOME is required for pm2 to work properly on Cloud Run Gen2 environment because of permission issues
-      env{
-        name = "PM2_HOME"
+      env {
+        name  = "PM2_HOME"
         value = "/app/web/.pm2"
       }
       env {
@@ -294,7 +294,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
         }
       }
       volume_mounts {
-        name = "plugin-daemon"
+        name       = "plugin-daemon"
         mount_path = "/app/storage"
       }
     }

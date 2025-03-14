@@ -9,10 +9,10 @@ resource "google_storage_bucket" "dify_storage" {
 }
 
 resource "google_storage_bucket" "plugin_daemon_storage" {
-  force_destroy               = false
-  location                    = upper(var.region)
-  name                        = "${var.project_id}_plugin-daemon-storage"
-  project                     = var.project_id
+  force_destroy = false
+  location      = upper(var.region)
+  name          = "${var.project_id}_plugin-daemon-storage"
+  project       = var.project_id
 }
 
 resource "google_service_account" "storage_admin" {
