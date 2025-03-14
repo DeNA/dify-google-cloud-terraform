@@ -6,6 +6,7 @@ resource "google_service_account" "dify_service_account" {
 resource "google_project_iam_member" "dify_service_account_role" {
   for_each = toset([
     "roles/run.admin",
+    "roles/storage.admin",
   ])
   project = var.project_id
   member  = "serviceAccount:${google_service_account.dify_service_account.email}"
@@ -36,6 +37,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
   ingress  = var.cloud_run_ingress
   template {
     service_account = google_service_account.dify_service_account.email
+    execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
     containers {
       name  = "nginx"
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.nginx_repository_id}/dify-nginx:latest"
@@ -185,6 +187,11 @@ resource "google_cloud_run_v2_service" "dify_service" {
         name  = "PM2_INSTANCES"
         value = 2
       }
+      # NOTE: Changing PM2_HOME is required for pm2 to work properly on Cloud Run Gen2 environment because of permission issues
+      env{
+        name = "PM2_HOME"
+        value = "/app/web/.pm2"
+      }
       env {
         name  = "LOOP_NODE_MAX_COUNT"
         value = 100
@@ -286,6 +293,10 @@ resource "google_cloud_run_v2_service" "dify_service" {
           port = 5003
         }
       }
+      volume_mounts {
+        name = "plugin-daemon"
+        mount_path = "/app/storage"
+      }
     }
     vpc_access {
       network_interfaces {
@@ -297,6 +308,13 @@ resource "google_cloud_run_v2_service" "dify_service" {
     scaling {
       min_instance_count = 1
       max_instance_count = 5
+    }
+    volumes {
+      name = "plugin-daemon"
+      gcs {
+        bucket    = var.plugin_daemon_storage_name
+        read_only = false
+      }
     }
   }
 }

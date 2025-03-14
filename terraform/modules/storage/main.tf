@@ -8,6 +8,13 @@ resource "google_storage_bucket" "dify_storage" {
   uniform_bucket_level_access = true
 }
 
+resource "google_storage_bucket" "plugin_daemon_storage" {
+  force_destroy               = false
+  location                    = upper(var.region)
+  name                        = "${var.project_id}_plugin-daemon-storage"
+  project                     = var.project_id
+}
+
 resource "google_service_account" "storage_admin" {
   account_id   = "storage-admin-for-dify"
   display_name = "Storage Admin Service Account"
