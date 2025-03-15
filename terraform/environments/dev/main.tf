@@ -65,14 +65,14 @@ module "cloudrun" {
 module "cloudsql" {
   source = "../../modules/cloudsql"
 
-  project_id  = var.project_id
-  region      = var.region
-  db_username = var.db_username
-  db_password = var.db_password
+  project_id          = var.project_id
+  region              = var.region
+  db_username         = var.db_username
+  db_password         = var.db_password
   deletion_protection = var.db_deletion_protection
 
   vpc_network_name = module.network.vpc_network_name
-  
+
   depends_on = [google_project_service.enabled_services]
 }
 

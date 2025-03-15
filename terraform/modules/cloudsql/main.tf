@@ -16,11 +16,11 @@ resource "google_compute_global_address" "private_ip_range" {
 
 
 resource "google_sql_database_instance" "postgres_instance" {
-  depends_on       = [google_service_networking_connection.private_vpc_connection]
-  database_version = "POSTGRES_15"
-  name             = "postgres-instance"
-  project          = var.project_id
-  region           = var.region
+  depends_on          = [google_service_networking_connection.private_vpc_connection]
+  database_version    = "POSTGRES_15"
+  name                = "postgres-instance"
+  project             = var.project_id
+  region              = var.region
   deletion_protection = var.deletion_protection
 
   settings {

@@ -19,5 +19,5 @@ variable "vpc_network_name" {
 }
 
 variable "deletion_protection" {
-  type    = bool
+  type = bool
 }
