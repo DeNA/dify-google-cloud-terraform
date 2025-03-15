@@ -9,7 +9,7 @@
 <a href="./README_ja.md"><img alt="日本語のREADME" src="https://img.shields.io/badge/日本語-d9d9d9"></a>
 
 > [!WARNING]
-> Current version v0.2.2 has storage issues of plugin daemon container. Please wait while we work on the fixes.
+> Current version has storage issues of plugin daemon container. Please wait while we work on the fixes.
 
 > [!NOTE]
 > Dify v1.0.0 (and later) is supported now! Try it and give us feedbacks!!
