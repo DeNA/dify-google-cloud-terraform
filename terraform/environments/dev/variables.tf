@@ -58,6 +58,14 @@ variable "db_database" {
   type = string
 }
 
+variable "db_database_plugin" {
+  type = string
+}
+
+variable "db_deletion_protection" {
+  type = bool
+}
+
 variable "storage_type" {
   type = string
 }

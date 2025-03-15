@@ -21,6 +21,7 @@ resource "google_sql_database_instance" "postgres_instance" {
   name             = "postgres-instance"
   project          = var.project_id
   region           = var.region
+  deletion_protection = var.deletion_protection
 
   settings {
     activation_policy = "ALWAYS"
@@ -67,6 +68,16 @@ resource "google_sql_database" "dify_database" {
   name     = "dify"
   instance = google_sql_database_instance.postgres_instance.name
   project  = var.project_id
+
+  depends_on = [google_sql_database_instance.postgres_instance]
+}
+
+resource "google_sql_database" "dify_plugin_database" {
+  name     = "dify_plugin"
+  instance = google_sql_database_instance.postgres_instance.name
+  project  = var.project_id
+
+  depends_on = [google_sql_database_instance.postgres_instance]
 }
 
 resource "google_sql_user" "dify_user" {
@@ -74,4 +85,6 @@ resource "google_sql_user" "dify_user" {
   instance = google_sql_database_instance.postgres_instance.name
   project  = var.project_id
   password = var.db_password
+
+  depends_on = [google_sql_database_instance.postgres_instance]
 }

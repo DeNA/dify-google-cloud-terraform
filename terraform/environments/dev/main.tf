@@ -17,7 +17,6 @@ locals {
     "DB_PASSWORD"                                = var.db_password
     "DB_HOST"                                    = module.cloudsql.cloudsql_internal_ip
     "DB_PORT"                                    = var.db_port
-    "DB_DATABASE"                                = var.db_database
     "STORAGE_TYPE"                               = var.storage_type
     "GOOGLE_STORAGE_BUCKET_NAME"                 = module.storage.storage_bucket_name
     "GOOGLE_STORAGE_SERVICE_ACCOUNT_JSON_BASE64" = module.storage.storage_admin_key_base64
@@ -56,7 +55,11 @@ module "cloudrun" {
   plugin_dify_inner_api_key   = var.plugin_dify_inner_api_key
   dify_plugin_daemon_version  = var.dify_plugin_daemon_version
   plugin_daemon_storage_name  = module.storage.plugin_daemon_storage_bucket_name
+  db_database                 = var.db_database
+  db_database_plugin          = var.db_database_plugin
   shared_env_vars             = local.shared_env_vars
+
+  depends_on = [google_project_service.enabled_services]
 }
 
 module "cloudsql" {
@@ -66,8 +69,11 @@ module "cloudsql" {
   region      = var.region
   db_username = var.db_username
   db_password = var.db_password
+  deletion_protection = var.db_deletion_protection
 
   vpc_network_name = module.network.vpc_network_name
+  
+  depends_on = [google_project_service.enabled_services]
 }
 
 module "redis" {
@@ -77,6 +83,8 @@ module "redis" {
   region     = var.region
 
   vpc_network_name = module.network.vpc_network_name
+
+  depends_on = [google_project_service.enabled_services]
 }
 
 module "network" {
@@ -84,6 +92,8 @@ module "network" {
 
   project_id = var.project_id
   region     = var.region
+
+  depends_on = [google_project_service.enabled_services]
 }
 
 module "storage" {
@@ -92,6 +102,8 @@ module "storage" {
   project_id                 = var.project_id
   region                     = var.region
   google_storage_bucket_name = var.google_storage_bucket_name
+
+  depends_on = [google_project_service.enabled_services]
 }
 
 module "registry" {
@@ -104,6 +116,8 @@ module "registry" {
   api_repository_id           = var.api_repository_id
   sandbox_repository_id       = var.sandbox_repository_id
   plugin_daemon_repository_id = var.plugin_daemon_repository_id
+
+  depends_on = [google_project_service.enabled_services]
 }
 
 locals {
