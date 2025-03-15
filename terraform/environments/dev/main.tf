@@ -55,6 +55,7 @@ module "cloudrun" {
   plugin_daemon_key           = var.plugin_daemon_key
   plugin_dify_inner_api_key   = var.plugin_dify_inner_api_key
   dify_plugin_daemon_version  = var.dify_plugin_daemon_version
+  plugin_daemon_storage_name  = module.storage.plugin_daemon_storage_bucket_name
   shared_env_vars             = local.shared_env_vars
 }
 
