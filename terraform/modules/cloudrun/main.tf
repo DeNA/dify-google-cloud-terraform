@@ -114,6 +114,10 @@ resource "google_cloud_run_v2_service" "dify_service" {
         name  = "INNER_API_KEY_FOR_PLUGIN"
         value = var.plugin_dify_inner_api_key
       }
+      env {
+        name  = "DB_DATABASE"
+        value = var.db_database
+      }
       dynamic "env" {
         for_each = var.shared_env_vars
         content {
@@ -231,7 +235,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
       }
       env {
         name  = "DB_DATABASE"
-        value = "dify_plugin"
+        value = var.db_database_plugin
       }
       env {
         name  = "SERVER_PORT"
@@ -368,6 +372,10 @@ resource "google_cloud_run_v2_service" "dify_worker" {
       env {
         name  = "INNER_API_KEY_FOR_PLUGIN"
         value = var.plugin_dify_inner_api_key
+      }
+      env {
+        name  = "DB_DATABASE"
+        value = var.db_database
       }
       dynamic "env" {
         for_each = var.shared_env_vars

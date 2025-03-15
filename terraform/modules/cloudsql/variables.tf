@@ -17,3 +17,7 @@ variable "db_password" {
 variable "vpc_network_name" {
   type = string
 }
+
+variable "deletion_protection" {
+  type = bool
+}

@@ -62,6 +62,14 @@ variable "plugin_daemon_storage_name" {
   type = string
 }
 
+variable "db_database" {
+  type = string
+}
+
+variable "db_database_plugin" {
+  type = string
+}
+
 variable "shared_env_vars" {
   type = map(string)
 }
