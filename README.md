@@ -9,7 +9,8 @@
 <a href="./README_ja.md"><img alt="日本語のREADME" src="https://img.shields.io/badge/日本語-d9d9d9"></a>
 
 > [!NOTE]
-> Dify v1.0.0 (and later) is supported now! Try it and give us feedbacks!!
+> - Dify v1.0.0 (and later) is supported now! Try it and give us feedbacks!!
+> - If you fails to install any plugin, try several times and succeed in many cases.
 
 ## Overview
 This repository allows you to automatically set up Google Cloud resources using Terraform and deploy Dify in a highly available configuration.
