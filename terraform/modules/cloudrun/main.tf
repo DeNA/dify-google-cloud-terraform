@@ -271,7 +271,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
       }
       env {
         name  = "PLUGIN_WORKING_PATH"
-        value = "/app/cwd"
+        value = "/app/storage/cwd"
       }
       env {
         name  = "FORCE_VERIFYING_SIGNATURE"
@@ -315,8 +315,9 @@ resource "google_cloud_run_v2_service" "dify_service" {
     }
     volumes {
       name = "plugin-daemon"
-      gcs {
-        bucket    = var.plugin_daemon_storage_name
+      nfs {
+        server = var.filestore_ip_address
+        path   = "/${var.filestore_fileshare_name}"
         read_only = false
       }
     }

@@ -58,15 +58,19 @@ variable "dify_plugin_daemon_version" {
   type = string
 }
 
-variable "plugin_daemon_storage_name" {
-  type = string
-}
-
 variable "db_database" {
   type = string
 }
 
 variable "db_database_plugin" {
+  type = string
+}
+
+variable "filestore_ip_address" {
+  type = string
+}
+
+variable "filestore_fileshare_name" {
   type = string
 }
 
