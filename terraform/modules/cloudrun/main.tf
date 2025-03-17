@@ -316,8 +316,8 @@ resource "google_cloud_run_v2_service" "dify_service" {
     volumes {
       name = "plugin-daemon"
       nfs {
-        server = var.filestore_ip_address
-        path   = "/${var.filestore_fileshare_name}"
+        server    = var.filestore_ip_address
+        path      = "/${var.filestore_fileshare_name}"
         read_only = false
       }
     }

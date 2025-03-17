@@ -110,7 +110,7 @@ module "storage" {
 module "filestore" {
   source = "../../modules/filestore"
 
-  region     = var.region
+  region = var.region
 
   vpc_network_name = module.network.vpc_network_name
 
