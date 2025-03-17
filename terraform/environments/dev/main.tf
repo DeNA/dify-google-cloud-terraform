@@ -54,9 +54,10 @@ module "cloudrun" {
   plugin_daemon_key           = var.plugin_daemon_key
   plugin_dify_inner_api_key   = var.plugin_dify_inner_api_key
   dify_plugin_daemon_version  = var.dify_plugin_daemon_version
-  plugin_daemon_storage_name  = module.storage.plugin_daemon_storage_bucket_name
   db_database                 = var.db_database
   db_database_plugin          = var.db_database_plugin
+  filestore_ip_address        = module.filestore.filestore_ip_address
+  filestore_fileshare_name    = module.filestore.filestore_fileshare_name
   shared_env_vars             = local.shared_env_vars
 
   depends_on = [google_project_service.enabled_services]
@@ -102,6 +103,16 @@ module "storage" {
   project_id                 = var.project_id
   region                     = var.region
   google_storage_bucket_name = var.google_storage_bucket_name
+
+  depends_on = [google_project_service.enabled_services]
+}
+
+module "filestore" {
+  source = "../../modules/filestore"
+
+  region = var.region
+
+  vpc_network_name = module.network.vpc_network_name
 
   depends_on = [google_project_service.enabled_services]
 }
