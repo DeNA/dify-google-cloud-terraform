@@ -271,7 +271,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
       }
       env {
         name  = "PLUGIN_WORKING_PATH"
-        value = "/app/storage/cwd"
+        value = "/app/cwd"
       }
       env {
         name  = "FORCE_VERIFYING_SIGNATURE"
