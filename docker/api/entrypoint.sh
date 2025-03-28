@@ -4,7 +4,7 @@ set -e
 
 # Start a simple HTTP server for health checks
 if [[ "${MODE}" == "worker" || "${MODE}" == "beat" ]]; then
-  nohup python -m http.server 5001 &
+  nohup python -m http.server 5000 &
 fi
 
 if [[ "${MIGRATION_ENABLED}" == "true" ]]; then
