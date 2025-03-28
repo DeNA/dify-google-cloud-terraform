@@ -302,33 +302,6 @@ resource "google_cloud_run_v2_service" "dify_service" {
         mount_path = "/app/storage"
       }
     }
-    vpc_access {
-      network_interfaces {
-        network    = var.vpc_network_name
-        subnetwork = var.vpc_subnet_name
-      }
-      egress = "ALL_TRAFFIC"
-    }
-    scaling {
-      min_instance_count = 1
-      max_instance_count = 5
-    }
-    volumes {
-      name = "plugin-daemon"
-      nfs {
-        server    = var.filestore_ip_address
-        path      = "/${var.filestore_fileshare_name}"
-        read_only = false
-      }
-    }
-  }
-}
-
-resource "google_cloud_run_v2_service" "dify_worker" {
-  name     = "dify-worker"
-  location = var.region
-
-  template {
     containers {
       name  = "dify-worker"
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.api_repository_id}/dify-api:${var.dify_version}"
@@ -338,9 +311,9 @@ resource "google_cloud_run_v2_service" "dify_worker" {
           memory = "4Gi"
         }
       }
-      ports {
-        name           = "http1"
-        container_port = 5001
+      env {
+        name  = "PORT"
+        value = 5000
       }
       env {
         name  = "MODE"
@@ -348,11 +321,11 @@ resource "google_cloud_run_v2_service" "dify_worker" {
       }
       env {
         name  = "PLUGIN_DAEMON_URL"
-        value = "${google_cloud_run_v2_service.dify_service.uri}:5002"
+        value = "http://127.0.0.1:5002"
       }
       env {
         name  = "ENDPOINT_URL_TEMPLATE"
-        value = "${google_cloud_run_v2_service.dify_service.uri}/e/{hook_id}"
+        value = "http://127.0.0.1/e/{hook_id}"
       }
       env {
         name  = "SENTRY_DSN"
@@ -388,7 +361,7 @@ resource "google_cloud_run_v2_service" "dify_worker" {
       startup_probe {
         http_get {
           path = "/"
-          port = 5001
+          port = 5000
         }
         initial_delay_seconds = 10
         timeout_seconds       = 240
@@ -406,6 +379,14 @@ resource "google_cloud_run_v2_service" "dify_worker" {
     scaling {
       min_instance_count = 1
       max_instance_count = 5
+    }
+    volumes {
+      name = "plugin-daemon"
+      nfs {
+        server    = var.filestore_ip_address
+        path      = "/${var.filestore_fileshare_name}"
+        read_only = false
+      }
     }
   }
 }
