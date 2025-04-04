@@ -24,6 +24,14 @@
 
 ## 設定
 - `terraform/environments/dev/terraform.tfvars` ファイルで環境固有の値を設定します。
+> [!WARNING]
+> **セキュリティ警告: `terraform.tfvars` の取り扱い**
+> リポジトリ内の `terraform/environments/dev/terraform.tfvars` は **テンプレート** です。実際の値 (プロジェクトID, 機密情報, 安全なパスワード) はローカルで設定してください。
+>
+> **❗️ 機密情報を含む `terraform.tfvars` を Git にコミットしないでください。** 重大なセキュリティリスクとなります。
+>
+> 誤コミット防止のため、すぐに `*.tfvars` を `.gitignore` に追加してください。安全な管理には環境変数 (`TF_VAR_...`) や Google Secret Manager 等の利用を推奨します。
+
 - terraform stateを管理する用のGCSバケットを事前に作成し、`terraform/environments/dev/provider.tf` ファイルの "your-tfstate-bucket" を作成したバケット名に書き換えます。
 
 ## 始め方
