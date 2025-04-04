@@ -23,6 +23,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Terraform 🛠️
         uses: ./.github/actions/setup-terraform
@@ -40,7 +42,13 @@ jobs:
       - name: Commit and Push Changes
         if: steps.diff.outcome == 'failure'
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -a -m '[skip ci] format .tf files'
-          git push
+          if [ "${{ github.event.pull_request.head.repo.full_name }}" == "${{ github.repository }}" ]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -a -m '[skip ci] format .tf files'
+            git push
+          else
+            echo "This PR is from a fork. Cannot push changes directly."
+            echo "::warning::Terraform formatting changes needed. Please apply these changes in your fork."
+            exit 1
+          fi

@@ -1,0 +1,56 @@
+name: Validate Terraform Code 🔍
+
+env:
+  TF_VERSION: 1.9.8
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  terraform-validate:
+    name: Validate Terraform Code 🔍
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup Terraform 🛠️
+        uses: ./.github/actions/setup-terraform
+        with:
+          tf_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Init ⚙️
+        run: |
+          cd terraform/environments/dev
+          terraform init -backend=false
+
+      - name: Terraform Validate ✅
+        id: validate
+        run: |
+          cd terraform/environments/dev
+          terraform validate
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Validation 🔍\`${{ steps.validate.outcome }}\`
+            
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
