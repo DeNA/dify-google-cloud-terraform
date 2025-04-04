@@ -27,6 +27,15 @@ This repository allows you to automatically set up Google Cloud resources using 
 
 ## Configuration
 - Set environment-specific values in the `terraform/environments/dev/terraform.tfvars` file.
+
+> [!WARNING]
+> **Security Alert: Handling `terraform.tfvars`**
+> The `terraform/environments/dev/terraform.tfvars` file in this repository is a **template only**. Populate it locally with your actual configuration (project ID, secrets, secure password).
+>
+> **Do NOT commit `terraform.tfvars` containing sensitive data to Git.** This poses a significant security risk.
+>
+> Add `*.tfvars` to your `.gitignore` file immediately to prevent accidental commits. For secure secret management, use environment variables (`TF_VAR_...`) or tools like Google Secret Manager.
+
 - Create a GCS bucket to manage Terraform state in advance, and replace "your-tfstate-bucket" in the `terraform/environments/dev/provider.tf` file with the name of the created bucket.
 
 ## Getting Started
