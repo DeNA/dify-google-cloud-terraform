@@ -77,3 +77,15 @@ variable "filestore_fileshare_name" {
 variable "shared_env_vars" {
   type = map(string)
 }
+
+variable "min_instance_count" {
+  type        = number
+  description = "Minimum number of instances for the Cloud Run service"
+  default     = 1
+}
+
+variable "max_instance_count" {
+  type        = number
+  description = "Maximum number of instances for the Cloud Run service"
+  default     = 5
+}
