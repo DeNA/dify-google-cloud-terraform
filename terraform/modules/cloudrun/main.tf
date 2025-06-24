@@ -6,7 +6,6 @@ resource "google_service_account" "dify_service_account" {
 resource "google_project_iam_member" "dify_service_account_role" {
   for_each = toset([
     "roles/run.admin",
-    "roles/storage.admin",
   ])
   project = var.project_id
   member  = "serviceAccount:${google_service_account.dify_service_account.email}"
