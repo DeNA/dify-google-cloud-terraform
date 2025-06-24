@@ -22,3 +22,7 @@ indexing_max_segmentation_tokens_length = "1000"
 cloud_run_ingress                       = "INGRESS_TRAFFIC_ALL"            # recommend to setup load balancer and use "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
 plugin_daemon_key                       = "your-plugin-daemon-key"         # replace with a generated value (run command `openssl rand -base64 42`)
 plugin_dify_inner_api_key               = "your-plugin-dify-inner-api-key" # replace with a generated value (run command `openssl rand -base64 42`)
+
+# Cloud Run scaling settings
+min_instance_count                       = 1
+max_instance_count                       = 5

@@ -93,3 +93,13 @@ variable "plugin_dify_inner_api_key" {
 variable "dify_plugin_daemon_version" {
   type = string
 }
+
+variable "min_instance_count" {
+  type        = number
+  description = "Minimum number of instances for the Cloud Run service"
+}
+
+variable "max_instance_count" {
+  type        = number
+  description = "Maximum number of instances for the Cloud Run service"
+}

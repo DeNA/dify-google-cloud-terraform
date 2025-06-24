@@ -81,11 +81,9 @@ variable "shared_env_vars" {
 variable "min_instance_count" {
   type        = number
   description = "Minimum number of instances for the Cloud Run service"
-  default     = 1
 }
 
 variable "max_instance_count" {
   type        = number
   description = "Maximum number of instances for the Cloud Run service"
-  default     = 5
 }
