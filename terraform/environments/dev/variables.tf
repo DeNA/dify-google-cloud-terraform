@@ -95,9 +95,9 @@ variable "dify_plugin_daemon_version" {
 }
 
 variable "min_instance_count" {
-  type        = number
+  type = number
 }
 
 variable "max_instance_count" {
-  type        = number
+  type = number
 }

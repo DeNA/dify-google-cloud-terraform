@@ -79,9 +79,9 @@ variable "shared_env_vars" {
 }
 
 variable "min_instance_count" {
-  type        = number
+  type = number
 }
 
 variable "max_instance_count" {
-  type        = number
+  type = number
 }
