@@ -59,6 +59,8 @@ module "cloudrun" {
   filestore_ip_address        = module.filestore.filestore_ip_address
   filestore_fileshare_name    = module.filestore.filestore_fileshare_name
   shared_env_vars             = local.shared_env_vars
+  min_instance_count          = var.min_instance_count
+  max_instance_count          = var.max_instance_count
 
   depends_on = [google_project_service.enabled_services]
 }

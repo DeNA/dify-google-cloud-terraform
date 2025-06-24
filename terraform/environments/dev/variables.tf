@@ -93,3 +93,11 @@ variable "plugin_dify_inner_api_key" {
 variable "dify_plugin_daemon_version" {
   type = string
 }
+
+variable "min_instance_count" {
+  type = number
+}
+
+variable "max_instance_count" {
+  type = number
+}

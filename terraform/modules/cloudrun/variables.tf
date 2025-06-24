@@ -77,3 +77,11 @@ variable "filestore_fileshare_name" {
 variable "shared_env_vars" {
   type = map(string)
 }
+
+variable "min_instance_count" {
+  type = number
+}
+
+variable "max_instance_count" {
+  type = number
+}

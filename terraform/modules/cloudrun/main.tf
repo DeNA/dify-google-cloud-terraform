@@ -377,8 +377,8 @@ resource "google_cloud_run_v2_service" "dify_service" {
       egress = "ALL_TRAFFIC"
     }
     scaling {
-      min_instance_count = 1
-      max_instance_count = 5
+      min_instance_count = var.min_instance_count
+      max_instance_count = var.max_instance_count
     }
     volumes {
       name = "plugin-daemon"
